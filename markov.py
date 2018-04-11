@@ -125,6 +125,24 @@ def make_text(chains, n):
     print " ".join(words)
 
 
+def initialized_capital_random_word(chains, n):
+    """Return text from chains."""
+    init_cap_words = []
+    for word in chains.keys():
+        if word[0].isupper():
+            init_cap_words.append(word)
+    init_words = choice(init_cap_words) 
+    words = list(init_words)
+    # while True:
+    #     try:
+    #         key = tuple(words[-n:])
+    #         value = choice(chains[key])
+    #         words.append(value)
+    #         if len(words) > 50:
+    #             break
+    #     except KeyError:
+    #         break
+    print " ".join(words)
 # input_path = "green-eggs.txt"
 
 # text_string = open_and_read_file(input_path)
@@ -140,4 +158,4 @@ chains = make_ngrams(input_text, int(sys.argv[-1]))
 # random_text = make_text(chains)
 
 # print random_text
-make_text(chains, int(sys.argv[-1]))
+initialized_capital_random_word(chains, int(sys.argv[-1]))
