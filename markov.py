@@ -111,31 +111,20 @@ def make_ngrams(text_string, n):
     return chains
 
 
-def make_text(chains):
+def make_text(chains, n):
     """Return text from chains."""
 
-    # words = []
     init_words = choice(chains.keys()) 
-    # words.append(init_words[0])
-    # words.append(init_words[1])
     words = list(init_words)
-
-    # third_word = choice(chains[init_words])
-    # words.append(third_word)
-    
     while True:
         try:
-            key = tuple(words[-2:])
+            key = tuple(words[-n:])
             value = choice(chains[key])
             words.append(value)
             if len(words) > 50:
                 break
         except KeyError:
             break
-
-
-
-
     print " ".join(words)
 
 
@@ -148,10 +137,10 @@ input_text = open_and_read_file(sys.argv[1])
 # print input_text
 # Get a Markov chain
 # chains = make_chains(input_text)
-chains = make_ngrams(input_text, int(sys.argv[2])
+chains = make_ngrams(input_text, int(sys.argv[2]))
 # print chains
 # # Produce random text
 # random_text = make_text(chains)
 
 # print random_text
-# make_text(chains)
+make_text(chains, int(sys.argv[2]))
