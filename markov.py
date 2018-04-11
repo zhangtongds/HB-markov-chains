@@ -3,19 +3,16 @@
 from random import choice
 import sys
 
-def open_and_read_file(file_path):
+def open_and_read_file(file_paths):
     """Take file path as string; return text as string.
 
     Takes a string that is a file path, opens the file, and turns
     the file's contents as one string of text.
     """
-    # all_text = ""
-    with open(file_path) as text:
-        all_text = text.read()
-        # for line in text:
-        #     line = line.strip()
-        #     # words = line.split()
-        #     all_text += (line + " ")
+    all_text =""
+    for f in file_paths:
+        with open(f) as text:
+            all_text += text.read()
 
     return all_text
 
@@ -133,14 +130,14 @@ def make_text(chains, n):
 # text_string = open_and_read_file(input_path)
 
 # Open the file and turn it into one long string
-input_text = open_and_read_file(sys.argv[1])
+input_text = open_and_read_file(sys.argv[1:-1])
 # print input_text
 # Get a Markov chain
 # chains = make_chains(input_text)
-chains = make_ngrams(input_text, int(sys.argv[2]))
+chains = make_ngrams(input_text, int(sys.argv[-1]))
 # print chains
 # # Produce random text
 # random_text = make_text(chains)
 
 # print random_text
-make_text(chains, int(sys.argv[2]))
+make_text(chains, int(sys.argv[-1]))
