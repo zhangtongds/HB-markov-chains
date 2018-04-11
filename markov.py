@@ -13,7 +13,6 @@ def open_and_read_file(file_paths):
     for f in file_paths:
         with open(f) as text:
             all_text += text.read()
-
     return all_text
 
 
@@ -99,7 +98,7 @@ def make_ngrams(text_string, n):
 
     # making a list of words in the string 
     all_words = text_string.split()
-    for idx in range(len(all_words)-n):
+    for idx in range(len(all_words)- n):
         key = tuple(all_words[idx:(idx + n)])
         if key in chains:
             chains[key].append(all_words[idx + n])
@@ -125,25 +124,34 @@ def make_text(chains, n):
     print " ".join(words)
 
 
-def initialized_capital_random_word(chains, n):
+def initialized_capital_random_word(chains):
     """Return text from chains."""
     init_cap_words = []
     for word in chains.keys():
-        if word[0].isupper():
+        if word[0][0].isupper():
             init_cap_words.append(word)
+    # print init_cap_words
     init_words = choice(init_cap_words) 
     words = list(init_words)
-    # while True:
-    #     try:
-    #         key = tuple(words[-n:])
-    #         value = choice(chains[key])
-    #         words.append(value)
-    #         if len(words) > 50:
-    #             break
-    #     except KeyError:
-    #         break
+    return words
+
+def make_text_w_init_punc(chains, n):
+    words = initialized_capital_random_word(chains)
+    while True:
+        try:
+            key = tuple(words[-n:])
+            value = choice(chains[key])
+            words.append(value)
+            if len(words) > 100:
+                break
+        except KeyError:
+            break
+    for idx in range(len(words)-1, -1, -1):   
+        if words[idx][-1] == ".":
+            del words[idx + 1:]
+            break
     print " ".join(words)
-# input_path = "green-eggs.txt"
+
 
 # text_string = open_and_read_file(input_path)
 
@@ -158,4 +166,4 @@ chains = make_ngrams(input_text, int(sys.argv[-1]))
 # random_text = make_text(chains)
 
 # print random_text
-initialized_capital_random_word(chains, int(sys.argv[-1]))
+make_text_w_init_punc(chains, int(sys.argv[-1]))
