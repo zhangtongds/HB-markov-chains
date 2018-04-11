@@ -73,6 +73,43 @@ def make_chains(text_string):
 
     return chains
 
+def make_ngrams(text_string, n):
+    """Take input text as string; return dictionary of Markov chains.
+
+    A chain will be a key that consists of a tuple of (word1, word2)
+    and the value would be a list of the word(s) that follow those two
+    words in the input text.
+
+    For example:
+
+        >>> chains = make_chains("hi there mary hi there juanita")
+
+    Each bigram (except the last) will be a key in chains:
+
+        >>> sorted(chains.keys())
+        [('hi', 'there'), ('mary', 'hi'), ('there', 'mary')]
+
+    Each item in chains is a list of all possible following words:
+
+        >>> chains[('hi', 'there')]
+        ['mary', 'juanita']
+        
+        >>> chains[('there','juanita')]
+        [None]
+    """
+    # empty dictionary
+    chains = {}
+
+    # making a list of words in the string 
+    all_words = text_string.split()
+    for idx in range(len(all_words)-n):
+        key = tuple(all_words[idx:(idx + n)])
+        if key in chains:
+            chains[key].append(all_words[idx + n])
+        else:
+            chains[key] = [all_words[idx + n]]
+    return chains
+
 
 def make_text(chains):
     """Return text from chains."""
@@ -110,10 +147,11 @@ def make_text(chains):
 input_text = open_and_read_file(sys.argv[1])
 # print input_text
 # Get a Markov chain
-chains = make_chains(input_text)
+# chains = make_chains(input_text)
+chains = make_ngrams(input_text, int(sys.argv[2])
 # print chains
 # # Produce random text
 # random_text = make_text(chains)
 
 # print random_text
-make_text(chains)
+# make_text(chains)
